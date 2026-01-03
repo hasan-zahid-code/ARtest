@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AR Experience</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <style>
+        :root {
+            --primary: #007bff;
+            --bg: #121212;
+        }
+
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: white;
+            overflow: hidden;
+        }
+
+        /* Screen 1: Selection & Info */
+        #selection-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .instruction-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .select-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .select-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Screen 2: Viewer (Hidden initially) */
+        #viewer-screen {
+            display: none;
+            height: 100vh;
+            position: relative;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Loading Spinner */
+        #loader {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-left-color: var(--primary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 20;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        #ar-button {
+            background: white;
+            color: black;
+            border: none;
+            border-radius: 50px;
+            padding: 15px 30px;
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="selection-screen">
+        <h1>AR World Explorer</h1>
+        <div class="instruction-card">
+            <h3>How it works:</h3>
+            <p>1. Pick a 3D model below.</p>
+            <p>2. Wait for the engine to load.</p>
+            <p>3. Tap "View in Room" to see it on your table!</p>
+        </div>
+        <div class="btn-group">
+            <button class="select-btn" onclick="launchAR('sexy-jet-engine-v1.glb')">🚀 Jet Engine</button>
+            <button class="select-btn" onclick="launchAR('cheeseburger-v1.glb')">🍔 Cheeseburger</button>
+        </div>
+    </div>
+
+    <div id="viewer-screen">
+        <button class="back-btn" onclick="goBack()">← Back</button>
+
+        <div id="loader">
+            <div class="spinner"></div>
+            <p>Loading the model...</p>
+        </div>
+
+        <model-viewer id="main-mv" src="" ar ar-modes="webxr scene-viewer quick-look" environment-image="neutral"
+            exposure="1" tone-mapping="neutral" camera-controls shadow-intensity="1" loading="eager" auto-rotate>
+            <button slot="ar-button" id="ar-button">VIEW IN YOUR ROOM</button>
+        </model-viewer>
+    </div>
+
+    <script>
+        const selectionScreen = document.getElementById('selection-screen');
+        const viewerScreen = document.getElementById('viewer-screen');
+        const loader = document.getElementById('loader');
+        const mv = document.getElementById('main-mv');
+
+        function launchAR(modelFile) {
+            // Show viewer screen, hide selection
+            selectionScreen.style.display = 'none';
+            viewerScreen.style.display = 'block';
+            loader.style.display = 'flex';
+
+            // Set the model source
+            mv.src = modelFile;
+        }
+
+        // Hide loader only when the 3D model is actually ready
+        mv.addEventListener('load', () => {
+            loader.style.display = 'none';
+        });
+
+        function goBack() {
+            viewerScreen.style.display = 'none';
+            selectionScreen.style.display = 'flex';
+            mv.src = ""; // Stop loading the previous model
+        }
+    </script>
+</body>
+
+</html>
