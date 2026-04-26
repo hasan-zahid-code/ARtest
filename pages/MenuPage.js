@@ -1,140 +1,288 @@
 import { createBanner, createCategorySlider, createMenuCard } from '../components/Card.js';
 
-/**
- * Menu items data
- */
+const CATEGORIES = [
+    { label: 'Burgers',    icon: '🍔' },
+    { label: 'Grilled',    icon: '🔥' },
+    { label: 'Asian',      icon: '🍜' },
+    { label: 'Vegetarian', icon: '🥗' },
+    { label: 'Desserts',   icon: '🍰' },
+];
+
 const menuItems = {
-    'Fast Food': [
-        { name: 'Classic Burger', emoji: '🍔', description: 'Juicy beef patty with lettuce, tomato, and special sauce', modelFile: 'burger.glb', category: 'Fast Food' },
-        { name: 'Cheeseburger', emoji: '🧀', description: 'Classic beef burger with melted cheddar cheese', modelFile: 'models/cheeseburger-v1.glb', category: 'Fast Food', annotation: '🥩 Protein: 24g <br> 🍞 Carbs: 30g <br> 🚫 Allergens: Gluten, Dairy' },
-        { name: 'Pepperoni Pizza', emoji: '🍕', description: 'Cheesy pizza with pepperoni and fresh basil', modelFile: 'pizza.glb', category: 'Fast Food' },
+    'Burgers': [
+        {
+            id: 'cheeseburger',
+            name: 'Classic Cheeseburger',
+            emoji: '🍔',
+            description: 'Double beef patty, aged cheddar, house pickles and signature sauce on a toasted brioche bun.',
+            price: 18.90,
+            hasModel: true,
+            modelFile: 'models/cheeseburger-v1.glb',
+            category: 'Burgers',
+            nutrition: { calories: 620, protein: 34, carbs: 48, fat: 28 },
+            spice: 1,
+            allergens: ['Gluten', 'Dairy', 'Egg', 'Sesame'],
+            hotspots: [
+                { name: 'bun',   position: '0.0 0.22 0.05',  normal: '0 1 0', label: 'Brioche Bun',  detail: 'Baked fresh daily, lightly toasted' },
+                { name: 'patty', position: '0.0 0.04 0.12',  normal: '0 0 1', label: 'Beef Patty',   detail: '180g grass-fed Australian chuck' },
+            ],
+        },
+        {
+            id: 'smash-burger',
+            name: 'Smash Burger',
+            emoji: '🍔',
+            description: 'Thin crispy smashed patty with American cheese, caramelised onions and house mustard.',
+            price: 16.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Burgers',
+            nutrition: { calories: 540, protein: 28, carbs: 42, fat: 24 },
+            spice: 0,
+            allergens: ['Gluten', 'Dairy', 'Mustard'],
+            hotspots: [],
+        },
+        {
+            id: 'mushroom-swiss',
+            name: 'Mushroom Swiss Burger',
+            emoji: '🍄',
+            description: 'Juicy beef patty topped with sautéed mushrooms, Swiss cheese and truffle aioli.',
+            price: 19.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Burgers',
+            nutrition: { calories: 590, protein: 30, carbs: 44, fat: 30 },
+            spice: 0,
+            allergens: ['Gluten', 'Dairy', 'Egg'],
+            hotspots: [],
+        },
     ],
     'Grilled': [
-        { name: 'BBQ Platter', emoji: '🍖', description: 'Grilled chicken, ribs, and corn with BBQ sauce', modelFile: 'bbq-platter.glb', category: 'Grilled' },
-        { name: 'Grilled Fish', emoji: '🐟', description: 'Fresh grilled fish fillet with lemon and herbs', modelFile: 'fish.glb', category: 'Grilled' },
-        { name: 'Tandoori Chicken', emoji: '🍗', description: 'Marinated chicken cooked in traditional tandoor oven', modelFile: 'tandoori.glb', category: 'Grilled' },
+        {
+            id: 'bbq-platter',
+            name: 'BBQ Mixed Platter',
+            emoji: '🍖',
+            description: 'Slow-smoked ribs, grilled chicken thigh and corn cobs with house BBQ sauce.',
+            price: 34.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Grilled',
+            nutrition: { calories: 920, protein: 72, carbs: 38, fat: 46 },
+            spice: 2,
+            allergens: ['Gluten', 'Sulphites'],
+            hotspots: [],
+        },
+        {
+            id: 'grilled-fish',
+            name: 'Grilled Barramundi',
+            emoji: '🐟',
+            description: 'Fresh barramundi fillet, lemon butter sauce, seasonal vegetables and herb salad.',
+            price: 28.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Grilled',
+            nutrition: { calories: 420, protein: 48, carbs: 12, fat: 18 },
+            spice: 0,
+            allergens: ['Fish', 'Dairy'],
+            hotspots: [],
+        },
+        {
+            id: 'tandoori-chicken',
+            name: 'Tandoori Chicken',
+            emoji: '🍗',
+            description: 'Overnight marinated chicken in spiced yoghurt, cooked in a traditional clay oven.',
+            price: 26.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Grilled',
+            nutrition: { calories: 480, protein: 52, carbs: 14, fat: 20 },
+            spice: 3,
+            allergens: ['Dairy'],
+            hotspots: [],
+        },
     ],
     'Asian': [
-        { name: 'Sushi Platter', emoji: '🍣', description: 'Assorted fresh sushi rolls with wasabi and soy sauce', modelFile: 'sushi.glb', category: 'Asian' },
-        { name: 'Biryani Bowl', emoji: '🍚', description: 'Aromatic basmati rice with tender meat and spices', modelFile: 'biryani.glb', category: 'Asian' },
+        {
+            id: 'sushi-platter',
+            name: 'Sushi Platter',
+            emoji: '🍣',
+            description: 'Chef\'s selection of 12-piece assorted sushi rolls with wasabi, pickled ginger and soy.',
+            price: 32.90,
+            hasModel: true,
+            modelFile: 'models/sushi-v1.glb',
+            category: 'Asian',
+            nutrition: { calories: 520, protein: 22, carbs: 72, fat: 10 },
+            spice: 1,
+            allergens: ['Fish', 'Gluten', 'Sesame', 'Soy'],
+            hotspots: [],
+        },
+        {
+            id: 'biryani-bowl',
+            name: 'Biryani Bowl',
+            emoji: '🍚',
+            description: 'Aromatic basmati rice slow-cooked with tender lamb, saffron and whole spices.',
+            price: 24.90,
+            hasModel: true,
+            modelFile: 'models/biryani-v1.glb',
+            category: 'Asian',
+            nutrition: { calories: 680, protein: 38, carbs: 82, fat: 18 },
+            spice: 3,
+            allergens: ['Dairy', 'Tree Nuts'],
+            hotspots: [],
+        },
     ],
     'Vegetarian': [
-        { name: 'Falafel Wrap', emoji: '🥙', description: 'Crispy falafel with hummus and fresh vegetables', modelFile: 'falafel.glb', category: 'Vegetarian' },
-        { name: 'Babars Pasta', emoji: '🍝', description: 'Creamy carbonara with fresh parmesan cheese', modelFile: 'pasta.glb', category: 'Vegetarian' },
+        {
+            id: 'falafel-wrap',
+            name: 'Falafel Wrap',
+            emoji: '🥙',
+            description: 'Crispy house-made falafel, hummus, tabbouleh and pickled vegetables in warm flatbread.',
+            price: 17.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Vegetarian',
+            nutrition: { calories: 420, protein: 14, carbs: 58, fat: 14 },
+            spice: 1,
+            allergens: ['Gluten', 'Sesame'],
+            hotspots: [],
+        },
+        {
+            id: 'pasta-carbonara',
+            name: 'Pasta Carbonara',
+            emoji: '🍝',
+            description: 'Al dente spaghetti, free-range egg yolk, aged pecorino romano and crispy pancetta.',
+            price: 22.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Vegetarian',
+            nutrition: { calories: 680, protein: 26, carbs: 74, fat: 28 },
+            spice: 0,
+            allergens: ['Gluten', 'Dairy', 'Egg'],
+            hotspots: [],
+        },
     ],
     'Desserts': [
-        { name: 'Chocolate Cake', emoji: '🍰', description: 'Rich chocolate cake with creamy frosting', modelFile: 'cake.glb', category: 'Desserts' },
-    ]
+        {
+            id: 'lava-cake',
+            name: 'Chocolate Lava Cake',
+            emoji: '🍰',
+            description: 'Warm dark chocolate fondant with a molten centre, served with vanilla bean gelato.',
+            price: 14.90,
+            hasModel: false,
+            modelFile: null,
+            category: 'Desserts',
+            nutrition: { calories: 480, protein: 8, carbs: 56, fat: 24 },
+            spice: 0,
+            allergens: ['Gluten', 'Dairy', 'Egg'],
+            hotspots: [],
+        },
+        {
+            id: 'pepperoni-pizza',
+            name: 'Pepperoni Pizza',
+            emoji: '🍕',
+            description: 'Hand-stretched sourdough base, San Marzano tomato, fior di latte and generous pepperoni.',
+            price: 23.90,
+            hasModel: true,
+            modelFile: 'models/pizza-v1.glb',
+            category: 'Desserts',
+            nutrition: { calories: 740, protein: 32, carbs: 80, fat: 30 },
+            spice: 1,
+            allergens: ['Gluten', 'Dairy'],
+            hotspots: [],
+        },
+    ],
 };
 
-/**
- * Create menu section with heading and items
- * @param {string} category - Category name
- * @param {Array} items - Menu items for this category
- * @param {function} onItemSelect - Callback when item is selected
- * @returns {HTMLElement}
- */
 function createMenuSection(category, items, onItemSelect) {
     const section = document.createElement('div');
     section.className = 'menu-section';
     section.id = `section-${category}`;
     section.setAttribute('data-category', category);
-    
+
     const heading = document.createElement('h2');
     heading.className = 'menu-section-heading';
     heading.textContent = category;
     section.appendChild(heading);
-    
+
     const grid = document.createElement('div');
     grid.className = 'menu-grid';
-    
+
     items.forEach(item => {
         const card = createMenuCard(item, onItemSelect);
         grid.appendChild(card);
     });
-    
+
     section.appendChild(grid);
     return section;
 }
 
-/**
- * Menu page with menu items and categories
- * @param {function} onSelectModel - Callback when model is selected
- * @returns {HTMLElement}
- */
 export function createMenuPage(onSelectModel) {
     const container = document.createElement('div');
     container.id = 'selection-screen';
-    
-    // Banner
-    const banner = createBanner('AR Food Explorer', 'View delicious dishes in 3D before you order');
+
+    const banner = createBanner('Flame & Fork', 'Explore our dishes in 3D — tap to view in AR');
     container.appendChild(banner);
-    
-    // Category slider
-    const categories = ['Fast Food', 'Grilled', 'Asian', 'Vegetarian', 'Desserts'];
-    
-    const categorySlider = createCategorySlider(categories, (category) => {
-        // Smooth scroll to section
-        const section = container.querySelector(`#section-${category}`);
+
+    const categorySlider = createCategorySlider(CATEGORIES, (label) => {
+        const section = contentContainer.querySelector(`#section-${label}`);
         if (section) {
-            const contentContainer = container.querySelector('#menu-content');
             contentContainer.scrollTo({
-                top: section.offsetTop - 100,
-                behavior: 'smooth'
+                top: section.offsetTop - contentContainer.offsetTop - 1,
+                behavior: 'smooth',
             });
         }
     });
     container.appendChild(categorySlider);
-    
-    // Content container for scrolling menu
+
     const contentContainer = document.createElement('div');
     contentContainer.className = 'menu-content';
     contentContainer.id = 'menu-content';
-    
-    // Create all menu sections
-    categories.forEach(category => {
-        const section = createMenuSection(category, menuItems[category], (item) => {
-            onSelectModel(item.modelFile, item.name);
+
+    CATEGORIES.forEach(({ label }) => {
+        const items = menuItems[label] || [];
+        const section = createMenuSection(label, items, (item) => {
+            onSelectModel(item);
         });
         contentContainer.appendChild(section);
     });
-    
-    // Handle scroll to update active category button
+
+    let scrollRafPending = false;
     contentContainer.addEventListener('scroll', () => {
-        updateActiveCategoryButton(container, categories);
-    });
-    
+        if (scrollRafPending) return;
+        scrollRafPending = true;
+        requestAnimationFrame(() => {
+            updateActiveCategoryButton(container, contentContainer);
+            scrollRafPending = false;
+        });
+    }, { passive: true });
+
     container.appendChild(contentContainer);
-    
     return container;
 }
 
-/**
- * Update active category button based on scroll position
- */
-function updateActiveCategoryButton(container, categories) {
-    const contentContainer = container.querySelector('#menu-content');
+function updateActiveCategoryButton(container, contentContainer) {
+    const containerRect = contentContainer.getBoundingClientRect();
     const buttons = container.querySelectorAll('.category-btn');
-    
-    let activeCategory = categories[0];
+    const labels = CATEGORIES.map(c => c.label);
+
+    let activeLabel = labels[0];
     let closestDistance = Infinity;
-    
-    categories.forEach(category => {
-        const section = container.querySelector(`#section-${category}`);
+
+    labels.forEach(label => {
+        const section = contentContainer.querySelector(`#section-${label}`);
         if (section) {
-            const distance = Math.abs(section.offsetTop - contentContainer.scrollTop - 100);
+            const sectionRect = section.getBoundingClientRect();
+            const distance = Math.abs(sectionRect.top - containerRect.top - 60);
             if (distance < closestDistance) {
                 closestDistance = distance;
-                activeCategory = category;
+                activeLabel = label;
             }
         }
     });
-    
+
     buttons.forEach(btn => btn.classList.remove('active'));
-    const activeBtn = container.querySelector(`.category-btn[data-category="${activeCategory}"]`);
+    const activeBtn = container.querySelector(`.category-btn[data-category="${activeLabel}"]`);
     if (activeBtn) {
         activeBtn.classList.add('active');
-        // Scroll slider to show active button
         activeBtn.scrollIntoView({ behavior: 'auto', block: 'nearest', inline: 'center' });
     }
 }

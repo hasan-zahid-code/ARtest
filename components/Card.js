@@ -1,167 +1,258 @@
 /**
  * Banner component
- * @param {string} title - Banner title
- * @param {string} subtitle - Banner subtitle
- * @returns {HTMLElement}
  */
-export function createBanner(title, subtitle) {
+export function createBanner(restaurantName, tagline) {
     const banner = document.createElement('div');
     banner.className = 'banner';
-    
-    const bannerContent = document.createElement('div');
-    bannerContent.className = 'banner-content';
-    
-    const titleElement = document.createElement('h1');
-    titleElement.className = 'banner-title';
-    titleElement.textContent = title;
-    
-    const subtitleElement = document.createElement('p');
-    subtitleElement.className = 'banner-subtitle';
-    subtitleElement.textContent = subtitle;
-    
-    bannerContent.appendChild(titleElement);
-    bannerContent.appendChild(subtitleElement);
-    banner.appendChild(bannerContent);
-    
+
+    const content = document.createElement('div');
+    content.className = 'banner-content';
+
+    const title = document.createElement('h1');
+    title.className = 'banner-title';
+    title.textContent = restaurantName;
+
+    const subtitle = document.createElement('p');
+    subtitle.className = 'banner-subtitle';
+    subtitle.textContent = tagline;
+
+    content.appendChild(title);
+    content.appendChild(subtitle);
+    banner.appendChild(content);
     return banner;
 }
 
 /**
  * Category slider component
- * @param {Array} categories - Array of category names
- * @param {function} onCategorySelect - Callback when category is selected
- * @returns {HTMLElement}
+ * @param {Array<{label: string, icon: string}>} categories
  */
 export function createCategorySlider(categories, onCategorySelect) {
     const slider = document.createElement('div');
     slider.className = 'category-slider';
-    
+
     const sliderContent = document.createElement('div');
     sliderContent.className = 'category-slider-content';
-    
-    categories.forEach((category, index) => {
-        const categoryBtn = document.createElement('button');
-        categoryBtn.className = 'category-btn';
-        categoryBtn.setAttribute('data-category', category);
-        if (index === 0) categoryBtn.classList.add('active');
-        categoryBtn.textContent = category;
-        categoryBtn.onclick = () => {
-            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
-            categoryBtn.classList.add('active');
-            onCategorySelect(category);
+
+    categories.forEach((cat, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn';
+        btn.setAttribute('data-category', cat.label);
+        if (index === 0) btn.classList.add('active');
+
+        const iconSpan = document.createElement('span');
+        iconSpan.className = 'cat-icon';
+        iconSpan.textContent = cat.icon;
+
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'cat-label';
+        labelSpan.textContent = cat.label;
+
+        btn.appendChild(iconSpan);
+        btn.appendChild(labelSpan);
+
+        btn.onclick = () => {
+            sliderContent.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            onCategorySelect(cat.label);
         };
-        sliderContent.appendChild(categoryBtn);
+
+        sliderContent.appendChild(btn);
     });
-    
+
     slider.appendChild(sliderContent);
     return slider;
 }
 
+// --- Internal helpers ---
+
+function createNutritionRow(nutrition) {
+    const row = document.createElement('div');
+    row.className = 'nutrition-row';
+
+    const chips = [
+        { key: 'cal',     label: 'kcal',    value: nutrition.calories },
+        { key: 'protein', label: 'protein',  value: `${nutrition.protein}g` },
+        { key: 'carbs',   label: 'carbs',    value: `${nutrition.carbs}g` },
+        { key: 'fat',     label: 'fat',      value: `${nutrition.fat}g` },
+    ];
+
+    chips.forEach(({ key, label, value }) => {
+        const chip = document.createElement('div');
+        chip.className = `nutrition-chip ${key}`;
+
+        const val = document.createElement('span');
+        val.className = 'nutrition-value';
+        val.textContent = value;
+
+        const lbl = document.createElement('span');
+        lbl.className = 'nutrition-label';
+        lbl.textContent = label;
+
+        chip.appendChild(val);
+        chip.appendChild(lbl);
+        row.appendChild(chip);
+    });
+
+    return row;
+}
+
+function createSpiceIndicator(level) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'spice-indicator';
+
+    if (level === 0) {
+        const label = document.createElement('span');
+        label.className = 'spice-none';
+        label.textContent = '✓ Not Spicy';
+        wrapper.appendChild(label);
+        return wrapper;
+    }
+
+    const spiceLabels = ['', 'Mild', 'Medium', 'Hot', 'Very Hot', 'Extreme'];
+    wrapper.setAttribute('title', `Spice Level: ${spiceLabels[level] || ''}`);
+    wrapper.setAttribute('aria-label', `Spice level: ${spiceLabels[level] || level} out of 5`);
+
+    for (let i = 1; i <= 5; i++) {
+        const icon = document.createElement('span');
+        icon.className = `spice-icon ${i <= level ? 'active' : 'inactive'}`;
+        icon.textContent = '🌶️';
+        icon.setAttribute('aria-hidden', 'true');
+        wrapper.appendChild(icon);
+    }
+
+    return wrapper;
+}
+
+function createAllergenTags(allergens) {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'allergen-tags';
+
+    allergens.forEach(allergen => {
+        const tag = document.createElement('span');
+        tag.className = 'allergen-tag';
+        tag.textContent = allergen;
+        wrapper.appendChild(tag);
+    });
+
+    return wrapper;
+}
+
 /**
  * Menu item card component
- * @param {Object} item - Menu item object
- * @param {string} item.name - Item name
- * @param {string} item.emoji - Item emoji
- * @param {string} item.description - Item description
- * @param {string} item.modelFile - 3D model file path
- * @param {function} onClick - Click handler
- * @returns {HTMLElement}
  */
 export function createMenuCard(item, onClick) {
     const card = document.createElement('div');
     card.className = 'menu-card';
-    
-    const cardImage = document.createElement('div');
-    cardImage.className = 'menu-card-image';
-    cardImage.textContent = item.emoji;
-    
-    const cardContent = document.createElement('div');
-    cardContent.className = 'menu-card-content';
-    
-    const cardName = document.createElement('h3');
-    cardName.className = 'menu-card-name';
-    cardName.textContent = item.name;
-    
-    const cardDescription = document.createElement('p');
-    cardDescription.className = 'menu-card-description';
-    cardDescription.textContent = item.description;
-    
-    cardContent.appendChild(cardName);
-    cardContent.appendChild(cardDescription);
-    
-    // Add annotation if available
-    if (item.annotation) {
-        const annotation = document.createElement('div');
-        annotation.className = 'annotation';
-        annotation.innerHTML = item.annotation;
-        cardContent.appendChild(annotation);
+
+    // Image column
+    const imageCol = document.createElement('div');
+    imageCol.className = 'menu-card-image';
+    imageCol.setAttribute('aria-hidden', 'true');
+    imageCol.textContent = item.emoji;
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'menu-card-body';
+
+    // Header: name + price
+    const header = document.createElement('div');
+    header.className = 'menu-card-header';
+
+    const name = document.createElement('h3');
+    name.className = 'menu-card-name';
+    name.textContent = item.name;
+
+    const price = document.createElement('span');
+    price.className = 'menu-card-price';
+    price.textContent = `$${item.price.toFixed(2)}`;
+
+    header.appendChild(name);
+    header.appendChild(price);
+
+    // Description
+    const desc = document.createElement('p');
+    desc.className = 'menu-card-description';
+    desc.textContent = item.description;
+
+    // Nutrition row
+    const nutritionRow = createNutritionRow(item.nutrition);
+
+    // Meta: spice + allergens
+    const meta = document.createElement('div');
+    meta.className = 'menu-card-meta';
+    meta.appendChild(createSpiceIndicator(item.spice));
+    if (item.allergens && item.allergens.length > 0) {
+        meta.appendChild(createAllergenTags(item.allergens));
     }
-    
-    const viewButton = document.createElement('button');
-    viewButton.className = 'view-ar-btn';
-    viewButton.textContent = '👁️ View AR';
-    viewButton.onclick = (e) => {
-        e.stopPropagation();
-        onClick(item);
-    };
-    
-    cardContent.appendChild(viewButton);
-    
-    card.appendChild(cardImage);
-    card.appendChild(cardContent);
-    
+
+    // Footer: CTA button
+    const footer = document.createElement('div');
+    footer.className = 'menu-card-footer';
+
+    if (item.hasModel) {
+        const btn = document.createElement('button');
+        btn.className = 'view-3d-btn';
+        btn.innerHTML = '&#x1F441;&#xFE0F; View in 3D';
+        btn.setAttribute('aria-label', `View ${item.name} in 3D`);
+        btn.onclick = (e) => {
+            e.stopPropagation();
+            onClick(item);
+        };
+        footer.appendChild(btn);
+    } else {
+        const btn = document.createElement('button');
+        btn.className = 'no-model-btn';
+        btn.textContent = '⏳ 3D Coming Soon';
+        btn.setAttribute('aria-label', '3D model not yet available');
+        btn.setAttribute('aria-disabled', 'true');
+        footer.appendChild(btn);
+    }
+
+    body.appendChild(header);
+    body.appendChild(desc);
+    body.appendChild(nutritionRow);
+    body.appendChild(meta);
+    body.appendChild(footer);
+
+    card.appendChild(imageCol);
+    card.appendChild(body);
+
     return card;
 }
 
-/**
- * Menu grid component
- * @param {Array} items - Array of menu items
- * @param {function} onItemSelect - Callback when item is selected
- * @returns {HTMLElement}
- */
+// Legacy exports kept for backwards compatibility
 export function createMenuGrid(items, onItemSelect) {
     const grid = document.createElement('div');
     grid.className = 'menu-grid';
-    
-    items.forEach(item => {
-        const card = createMenuCard(item, onItemSelect);
-        grid.appendChild(card);
-    });
-    
+    items.forEach(item => grid.appendChild(createMenuCard(item, onItemSelect)));
     return grid;
 }
 
-/**
- * Instruction card component
- * @param {string} title - Card title
- * @param {string[]} instructions - Array of instruction text
- * @returns {HTMLElement}
- */
 export function createInstructionCard(title, instructions) {
     const card = document.createElement('div');
     card.className = 'instruction-card';
-    
-    const titleElement = document.createElement('h3');
-    titleElement.textContent = title;
-    card.appendChild(titleElement);
-    
-    instructions.forEach(instruction => {
-        const paragraph = document.createElement('p');
-        paragraph.textContent = instruction;
-        card.appendChild(paragraph);
+    const titleEl = document.createElement('h3');
+    titleEl.textContent = title;
+    card.appendChild(titleEl);
+    instructions.forEach(text => {
+        const p = document.createElement('p');
+        p.textContent = text;
+        card.appendChild(p);
     });
-    
     return card;
 }
 
-/**
- * Menu card group component
- * @param {Array} buttons - Array of button elements
- * @returns {HTMLElement}
- */
 export function createButtonGroup(buttons) {
     const group = document.createElement('div');
     group.className = 'btn-group';
-    buttons.forEach(button => group.appendChild(button));
+    buttons.forEach(btn => group.appendChild(btn));
     return group;
+}
+
+export function createButton(text, emoji, onClick) {
+    const button = document.createElement('button');
+    button.className = 'select-btn';
+    button.textContent = `${emoji} ${text}`;
+    button.onclick = onClick;
+    return button;
 }

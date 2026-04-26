@@ -1,51 +1,139 @@
+/* ==========================================================================
+   1. CSS Custom Properties (design tokens)
+   ========================================================================== */
 :root {
-    --primary: #007bff;
-    --bg: #121212;
-    --card-bg: rgba(255, 255, 255, 0.05);
-    --border-color: rgba(255, 255, 255, 0.1);
-    --text-light: rgba(255, 255, 255, 0.7);
+    /* Brand — warm terracotta */
+    --color-brand:          #D4531A;
+    --color-brand-light:    #F07040;
+    --color-brand-dark:     #9E3A0E;
+    --color-brand-tint:     rgba(212, 83, 26, 0.10);
+
+    /* Surfaces — cream / warm white */
+    --color-bg:             #FDF6EE;
+    --color-surface:        #FFFFFF;
+    --color-surface-raised: #FFF8F2;
+    --color-surface-subtle: #F5EDE2;
+    --color-overlay:        rgba(15, 8, 0, 0.60);
+
+    /* Borders */
+    --color-border:         rgba(180, 130, 90, 0.18);
+    --color-border-strong:  rgba(180, 130, 90, 0.35);
+
+    /* Text */
+    --color-text-primary:   #1A1008;
+    --color-text-secondary: #5C4033;
+    --color-text-muted:     #9C7B68;
+    --color-text-inverse:   #FFFFFF;
+
+    /* Nutrition chips */
+    --color-cal:     #D4631A;
+    --color-protein: #3A72C0;
+    --color-carbs:   #B8860B;
+    --color-fat:     #B03A35;
+
+    /* Spice */
+    --color-spice-inactive: rgba(0,0,0,0.15);
+
+    /* Viewer overlay */
+    --color-viewer-bg: rgba(12, 6, 0, 0.75);
+
+    /* Shadows */
+    --shadow-card:       0 2px 12px rgba(100, 50, 20, 0.08);
+    --shadow-card-hover: 0 8px 28px rgba(100, 50, 20, 0.16);
+    --shadow-btn:        0 4px 14px rgba(212, 83, 26, 0.40);
+
+    /* Radii */
+    --radius-card: 16px;
+    --radius-chip: 8px;
+    --radius-btn:  50px;
+    --radius-tag:  6px;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 40px;
+
+    /* Typography */
+    --font-body:    'Inter', 'Segoe UI', system-ui, sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+
+    /* Transitions */
+    --t-fast: 0.15s ease;
+    --t-med:  0.26s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-body,
-html {
+/* ==========================================================================
+   2. Reset & Base
+   ========================================================================== */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body, html {
     margin: 0;
     padding: 0;
     height: 100%;
-    font-family: 'Segoe UI', sans-serif;
-    background: var(--bg);
-    color: white;
+    font-family: var(--font-body);
+    background: var(--color-bg);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
 }
 
-/* Screen 1: Selection & Info */
+button {
+    font-family: var(--font-body);
+    cursor: pointer;
+}
+
+/* ==========================================================================
+   3. Layout — Selection Screen
+   ========================================================================== */
 #selection-screen {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     height: 100vh;
-    padding: 0;
+    height: 100dvh;
     overflow: hidden;
 }
 
-/* Banner */
+/* ==========================================================================
+   4. Banner
+   ========================================================================== */
 .banner {
-    background: linear-gradient(135deg, var(--primary) 0%, #0056cc 100%);
-    padding: 40px 20px;
+    background: linear-gradient(140deg, #C44A15 0%, #D4531A 45%, #E8763A 80%, #F0A060 100%);
+    padding: 28px 20px 24px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    flex-shrink: 0;
 }
 
 .banner::before {
     content: '';
     position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 400px;
-    height: 400px;
-    background: rgba(255, 255, 255, 0.1);
+    top: -60px;
+    right: -40px;
+    width: 220px;
+    height: 220px;
+    background: rgba(255, 255, 255, 0.08);
     border-radius: 50%;
-    z-index: 0;
+    pointer-events: none;
+}
+
+.banner::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: -20px;
+    width: 140px;
+    height: 140px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    pointer-events: none;
 }
 
 .banner-content {
@@ -55,70 +143,90 @@ html {
 
 .banner-title {
     margin: 0;
-    font-size: 28px;
+    font-family: var(--font-display);
+    font-size: 26px;
     font-weight: 700;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    color: var(--color-text-inverse);
+    letter-spacing: -0.3px;
 }
 
 .banner-subtitle {
-    margin: 10px 0 0 0;
-    font-size: 14px;
-    opacity: 0.95;
-    font-weight: 300;
+    margin: 6px 0 0;
+    font-size: 13px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.88);
+    letter-spacing: 0.1px;
 }
 
-/* Category Slider */
+/* ==========================================================================
+   5. Category Slider
+   ========================================================================== */
 .category-slider {
-    background: rgba(0, 0, 0, 0.5);
-    padding: 12px 0;
+    background: var(--color-surface-raised);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 2px 8px rgba(100, 50, 20, 0.06);
     overflow-x: auto;
     overflow-y: hidden;
-    border-bottom: 2px solid var(--primary);
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    flex-shrink: 0;
+}
+
+.category-slider::-webkit-scrollbar {
+    display: none;
 }
 
 .category-slider-content {
     display: flex;
-    gap: 8px;
-    padding: 0 12px;
+    gap: 4px;
+    padding: 10px 12px;
     min-width: min-content;
 }
 
 .category-btn {
     background: transparent;
     border: none;
-    color: var(--text-light);
-    padding: 10px 18px;
-    border-radius: 20px;
-    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: 8px 16px;
+    border-radius: var(--radius-btn);
     font-size: 13px;
+    font-weight: 600;
     white-space: nowrap;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    border-bottom: 3px solid transparent;
+    transition: all var(--t-fast);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 36px;
+    border: 1.5px solid transparent;
 }
 
 .category-btn:hover {
-    color: white;
-    background: rgba(0, 123, 255, 0.15);
+    color: var(--color-brand);
+    background: var(--color-brand-tint);
 }
 
 .category-btn.active {
-    background: rgba(0, 123, 255, 0.2);
-    border-bottom-color: var(--primary);
-    color: white;
-    font-weight: 600;
+    color: var(--color-brand);
+    background: var(--color-brand-tint);
+    border-color: rgba(212, 83, 26, 0.30);
 }
 
-/* Menu Content Container */
+.cat-icon {
+    font-size: 15px;
+    line-height: 1;
+}
+
+/* ==========================================================================
+   6. Menu Content & Sections
+   ========================================================================== */
 .menu-content {
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
 }
 
-/* Menu Section with Heading */
 .menu-section {
     padding: 0;
 }
@@ -126,275 +234,497 @@ html {
 .menu-section-heading {
     position: sticky;
     top: 0;
-    background: rgba(52, 51, 51, 0.3);
-    padding: 8px 20px;
+    background: rgba(253, 246, 238, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 10px 20px;
     margin: 0;
-    font-size: 20px;
-    font-weight: 600;
-    color: rgba(255, 255, 255, 0.8);
-    border-bottom: 1px solid var(--border-color);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    border-bottom: 1px solid var(--color-border);
+    letter-spacing: -0.2px;
     z-index: 5;
 }
 
-/* Menu Grid */
+/* ==========================================================================
+   7. Menu Grid
+   ========================================================================== */
 .menu-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
-    padding: 20px;
+    gap: 12px;
+    padding: 16px;
 }
 
-/* Menu Card */
+/* ==========================================================================
+   8. Menu Card — Base
+   ========================================================================== */
 .menu-card {
-    background: var(--card-bg);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
     overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: row;
     align-items: stretch;
+    box-shadow: var(--shadow-card);
+    transition: box-shadow var(--t-med), border-color var(--t-med), transform var(--t-med);
 }
 
 .menu-card:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--primary);
-    transform: translateX(4px);
-    box-shadow: 0 8px 16px rgba(0, 123, 255, 0.2);
+    box-shadow: var(--shadow-card-hover);
+    border-color: rgba(212, 83, 26, 0.30);
+    transform: translateY(-2px);
 }
 
 .menu-card-image {
-    background: linear-gradient(135deg, rgba(0, 123, 255, 0.2) 0%, rgba(0, 123, 255, 0.1) 100%);
-    padding: 20px;
-    text-align: center;
-    font-size: 40px;
-    min-width: 100px;
+    background: var(--color-surface-subtle);
+    min-width: 88px;
+    width: 88px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-right: 1px solid var(--border-color);
+    font-size: 38px;
+    border-right: 1px solid var(--color-border);
+    flex-shrink: 0;
 }
 
-.menu-card-content {
-    padding: 15px;
+.menu-card-body {
+    padding: 14px 14px 12px;
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-width: 0;
+}
+
+/* ==========================================================================
+   9. Menu Card — Header (name + price)
+   ========================================================================== */
+.menu-card-header {
+    display: flex;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 5px;
 }
 
 .menu-card-name {
-    margin: 0 0 8px 0;
+    margin: 0;
     font-size: 14px;
-    font-weight: 600;
-    color: white;
+    font-weight: 700;
+    color: var(--color-text-primary);
+    line-height: 1.3;
+    flex: 1;
+    min-width: 0;
+}
+
+.menu-card-price {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-brand);
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .menu-card-description {
-    margin: 0 0 12px 0;
+    margin: 0 0 10px;
     font-size: 12px;
-    color: var(--text-light);
-    line-height: 1.4;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
 }
 
-.view-ar-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 12px;
-    cursor: pointer;
+/* ==========================================================================
+   10. Menu Card — Nutrition Row
+   ========================================================================== */
+.nutrition-row {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.nutrition-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: var(--radius-chip);
+    min-width: 46px;
+    line-height: 1;
+}
+
+.nutrition-value {
+    font-size: 13px;
+    font-weight: 700;
+    display: block;
+}
+
+.nutrition-label {
+    font-size: 9px;
     font-weight: 600;
-    transition: all 0.2s ease;
-    align-self: flex-start;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: block;
+    margin-top: 2px;
+    opacity: 0.85;
 }
 
-.view-ar-btn:hover {
-    background: #0056cc;
+.nutrition-chip.cal {
+    background: rgba(212, 99, 26, 0.10);
+    color: var(--color-cal);
 }
 
-.view-ar-btn:active {
-    transform: scale(0.95);
+.nutrition-chip.protein {
+    background: rgba(58, 114, 192, 0.10);
+    color: var(--color-protein);
 }
 
-/* Annotation */
-.annotation {
-    background: rgba(0, 123, 255, 0.1);
-    border-left: 3px solid var(--primary);
-    padding: 8px 12px;
-    border-radius: 4px;
+.nutrition-chip.carbs {
+    background: rgba(184, 134, 11, 0.10);
+    color: var(--color-carbs);
+}
+
+.nutrition-chip.fat {
+    background: rgba(176, 58, 53, 0.10);
+    color: var(--color-fat);
+}
+
+/* ==========================================================================
+   11. Menu Card — Spice Indicator
+   ========================================================================== */
+.menu-card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.spice-indicator {
+    display: flex;
+    align-items: center;
+    gap: 1px;
+}
+
+.spice-icon {
+    font-size: 12px;
+    line-height: 1;
+    transition: filter var(--t-fast), opacity var(--t-fast);
+}
+
+.spice-icon.active {
+    filter: none;
+    opacity: 1;
+}
+
+.spice-icon.inactive {
+    filter: grayscale(1);
+    opacity: 0.22;
+}
+
+.spice-none {
     font-size: 11px;
-    color: var(--text-light);
-    margin: 8px 0 12px 0;
-    line-height: 1.6;
+    font-weight: 600;
+    color: #4A8A4A;
+    background: rgba(74, 138, 74, 0.10);
+    padding: 2px 8px;
+    border-radius: 20px;
 }
 
-/* Responsive Grid - Tablet (2 columns) */
-@media (min-width: 768px) {
-    .menu-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-        padding: 30px;
-    }
-    
-    .menu-card {
-        flex-direction: column;
-    }
-    
-    .menu-card-image {
-        border-right: none;
-        border-bottom: 1px solid var(--border-color);
-        padding: 30px 20px;
-        font-size: 48px;
-        min-width: auto;
-    }
-    
-    .menu-section-heading {
-        padding: 10px 30px;
-        font-size: 24px;
-    }
+/* ==========================================================================
+   12. Menu Card — Allergen Tags
+   ========================================================================== */
+.allergen-tags {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
 }
 
-/* Responsive Grid - Large screens (3 columns) */
-@media (min-width: 1024px) {
-    .menu-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 25px;
-        padding: 40px;
-    }
-    
-    .menu-card-image {
-        padding: 40px 20px;
-        font-size: 56px;
-    }
-    
-    .menu-section-heading {
-        padding: 12px 40px;
-        font-size: 28px;
-    }
+.allergen-tag {
+    background: var(--color-surface-subtle);
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-tag);
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    white-space: nowrap;
 }
 
-/* Screen 2: Viewer (Hidden initially) */
+/* ==========================================================================
+   13. Menu Card — CTA Buttons
+   ========================================================================== */
+.menu-card-footer {
+    margin-top: auto;
+}
+
+.view-3d-btn {
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    border: none;
+    padding: 9px 16px;
+    border-radius: var(--radius-btn);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    box-shadow: 0 2px 8px rgba(212, 83, 26, 0.25);
+}
+
+.view-3d-btn:hover {
+    background: var(--color-brand-light);
+    box-shadow: var(--shadow-btn);
+}
+
+.view-3d-btn:active {
+    transform: scale(0.96);
+    background: var(--color-brand-dark);
+}
+
+.no-model-btn {
+    background: transparent;
+    color: var(--color-text-muted);
+    border: 1.5px dashed var(--color-border-strong);
+    border-radius: var(--radius-btn);
+    padding: 8px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    min-height: 36px;
+    cursor: default;
+    pointer-events: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ==========================================================================
+   14. Layout — Viewer Screen
+   ========================================================================== */
 #viewer-screen {
     display: none;
     height: 100vh;
+    height: 100dvh;
     position: relative;
+    overflow: hidden;
+    background: #0F0A05;
 }
 
 model-viewer {
     width: 100%;
     height: 100%;
+    --progress-bar-color: var(--color-brand);
 }
 
-/* Loading Spinner */
+/* ==========================================================================
+   15. Loader
+   ========================================================================== */
 #loader {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--bg);
+    inset: 0;
+    background: var(--color-bg);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 10;
+    gap: 16px;
+    z-index: 20;
 }
 
 .spinner {
-    border: 4px solid rgba(255, 255, 255, 0.1);
-    border-left-color: var(--primary);
+    border: 3px solid var(--color-border);
+    border-left-color: var(--color-brand);
     border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
+    width: 44px;
+    height: 44px;
+    animation: spin 0.9s linear infinite;
+}
+
+#loader p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
-/* Back Button */
+/* ==========================================================================
+   16. Back Button
+   ========================================================================== */
 .back-btn {
     position: absolute;
-    top: 20px;
-    left: 20px;
-    z-index: 20;
-    background: rgba(0, 0, 0, 0.5);
-    border: none;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 16px;
+    top: max(20px, env(safe-area-inset-top));
+    left: 16px;
+    z-index: 30;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.50);
+    color: var(--color-text-primary);
+    padding: 10px 16px;
+    border-radius: var(--radius-btn);
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    transition: background var(--t-fast);
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+/* ==========================================================================
+   17. AR Button
+   ========================================================================== */
 #ar-button {
-    background: white;
-    color: black;
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
     border: none;
-    border-radius: 50px;
-    padding: 12px 24px;
+    border-radius: var(--radius-btn);
+    padding: 14px 28px;
     position: absolute;
-    bottom: 20px;
+    bottom: calc(var(--overlay-height, 90px) + 16px);
     left: 50%;
     transform: translateX(-50%);
-    font-weight: bold;
+    font-family: var(--font-body);
+    font-weight: 700;
     font-size: 14px;
+    letter-spacing: 0.3px;
     min-width: 200px;
     max-width: calc(100% - 40px);
     white-space: nowrap;
-    cursor: pointer;
     z-index: 15;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-btn);
+    transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
-/* Tablet and larger screens */
-@media (min-width: 768px) {
-    #ar-button {
-        padding: 15px 30px;
-        bottom: 40px;
-        font-size: 16px;
-        min-width: 250px;
-    }
+#ar-button:hover {
+    background: var(--color-brand-light);
 }
 
-/* Large screens */
-@media (min-width: 1024px) {
-    #ar-button {
-        padding: 15px 40px;
-        font-size: 18px;
-    }
+#ar-button:active {
+    transform: translateX(-50%) scale(0.97);
 }
 
-/* Hotspot Annotations */
+/* ==========================================================================
+   18. Viewer Info Overlay
+   ========================================================================== */
+.viewer-info-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+    background: var(--color-viewer-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 12;
+    color: var(--color-text-inverse);
+}
+
+.viewer-item-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.viewer-item-name {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-text-inverse);
+    line-height: 1.2;
+    flex: 1;
+    min-width: 0;
+}
+
+.viewer-item-price {
+    font-size: 18px;
+    font-weight: 700;
+    color: #F0A060;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.viewer-nutrition-summary {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.viewer-nutrition-summary .nutrition-chip {
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.viewer-nutrition-summary .nutrition-chip.cal {
+    background: rgba(212, 99, 26, 0.20);
+}
+
+.viewer-nutrition-summary .nutrition-chip.protein {
+    background: rgba(58, 114, 192, 0.20);
+}
+
+.viewer-nutrition-summary .nutrition-chip.carbs {
+    background: rgba(184, 134, 11, 0.20);
+}
+
+.viewer-nutrition-summary .nutrition-chip.fat {
+    background: rgba(176, 58, 53, 0.20);
+}
+
+.viewer-spice-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* ==========================================================================
+   19. Hotspot Annotations
+   ========================================================================== */
 .hotspot {
-    background: #fff;
+    background: var(--color-brand);
+    border: 2px solid rgba(255, 255, 255, 0.80);
     border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    border: none;
+    width: 22px;
+    height: 22px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.40);
+    transition: transform var(--t-fast);
+    position: relative;
 }
 
 .hotspot:hover {
-    transform: scale(1.2);
+    transform: scale(1.25);
 }
 
 .hotspot .annotation {
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(15, 8, 0, 0.92);
     color: #fff;
-    padding: 10px 12px;
-    border-radius: 8px;
+    padding: 10px 14px;
+    border-radius: 10px;
     position: absolute;
-    transform: translate(25px, -50%);
-    width: 150px;
+    transform: translate(20px, -50%);
+    width: 160px;
     text-align: left;
     font-size: 12px;
     line-height: 1.6;
@@ -402,8 +732,99 @@ model-viewer {
     pointer-events: none;
     z-index: 10;
     display: none;
+    border: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.40);
 }
 
 .hotspot:hover .annotation {
     display: block;
+}
+
+.hotspot .annotation strong {
+    display: block;
+    color: #F0A060;
+    margin-bottom: 4px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* ==========================================================================
+   20. Animations
+   ========================================================================== */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.menu-card {
+    animation: fadeSlideUp 0.3s ease both;
+}
+
+/* ==========================================================================
+   21. Responsive — Tablet (768px+)
+   ========================================================================== */
+@media (min-width: 768px) {
+    .banner {
+        padding: 36px 24px 30px;
+    }
+
+    .banner-title {
+        font-size: 32px;
+    }
+
+    .banner-subtitle {
+        font-size: 15px;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .menu-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .menu-card-image {
+        width: 100%;
+        min-width: unset;
+        height: 130px;
+        border-right: none;
+        border-bottom: 1px solid var(--color-border);
+        font-size: 52px;
+    }
+
+    .menu-section-heading {
+        font-size: 20px;
+        padding: 12px 20px;
+    }
+}
+
+/* ==========================================================================
+   22. Responsive — Desktop (1024px+)
+   ========================================================================== */
+@media (min-width: 1024px) {
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        padding: 24px;
+    }
+
+    .menu-card-image {
+        height: 150px;
+        font-size: 60px;
+    }
+
+    .menu-section-heading {
+        font-size: 22px;
+        padding: 14px 24px;
+    }
+
+    #ar-button {
+        font-size: 15px;
+        padding: 16px 36px;
+    }
 }
