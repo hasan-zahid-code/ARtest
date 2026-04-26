@@ -90,7 +90,7 @@ export function createViewerPage(onBack) {
     // Dynamically track overlay height so AR button clears it
     const ro = new ResizeObserver(entries => {
         for (const entry of entries) {
-            container.style.setProperty('--overlay-height', `${Math.ceil(entry.contentRect.height)}px`);
+            container.style.setProperty('--overlay-height', `${Math.ceil(entry.target.offsetHeight)}px`);
         }
     });
     ro.observe(overlay);
