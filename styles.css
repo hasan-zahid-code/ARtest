@@ -507,27 +507,42 @@ model-viewer {
     z-index: 20;
 }
 
-.spinner {
-    border: 1px solid rgba(201, 169, 110, 0.12);
-    border-left-color: var(--color-brand);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    animation: spin 1.2s linear infinite;
+.loader-name {
+    margin: 0 0 20px;
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text-secondary);
+    letter-spacing: 0.02em;
+    text-align: center;
 }
 
-#loader p {
-    margin: 0;
+.loader-bar-track {
+    width: 160px;
+    height: 1px;
+    background: rgba(201, 169, 110, 0.14);
+    position: relative;
+}
+
+.loader-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: var(--color-brand);
+    transition: width 0.25s ease;
+}
+
+.loader-percent {
+    margin: 14px 0 0;
     font-family: var(--font-body);
     font-size: 10px;
     font-weight: 400;
     letter-spacing: 0.22em;
-    text-transform: uppercase;
     color: var(--color-text-muted);
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
+    text-align: center;
 }
 
 /* ==========================================================================
@@ -555,7 +570,11 @@ model-viewer {
     min-height: 36px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
+}
+
+.back-btn i {
+    font-size: 10px;
 }
 
 .back-btn:hover {
@@ -573,7 +592,7 @@ model-viewer {
     border-radius: var(--radius-btn);
     padding: 14px 32px;
     position: absolute;
-    bottom: calc(var(--overlay-height, 100px) + 20px);
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-body);
@@ -607,15 +626,15 @@ model-viewer {
    ========================================================================== */
 .viewer-info-overlay {
     position: absolute;
-    bottom: 0;
+    top: 0;
     left: 0;
     right: 0;
-    padding: 80px 28px calc(24px + env(safe-area-inset-bottom));
+    padding: calc(max(20px, env(safe-area-inset-top)) + 56px) 28px 48px;
     background: linear-gradient(
-        to top,
-        rgba(0, 0, 0, 0.96) 0%,
-        rgba(0, 0, 0, 0.80) 45%,
-        rgba(0, 0, 0, 0.40) 70%,
+        to bottom,
+        rgba(0, 0, 0, 0.92) 0%,
+        rgba(0, 0, 0, 0.70) 50%,
+        rgba(0, 0, 0, 0.20) 80%,
         transparent 100%
     );
     border-top: none;

@@ -9,7 +9,7 @@ export function createButton(text, emoji, onClick) {
 export function createBackButton(onClick) {
     const button = document.createElement('button');
     button.className = 'back-btn';
-    button.textContent = '\u2190\u00A0Menu';
+    button.innerHTML = '<i class="fa-solid fa-chevron-left"></i><span>Menu</span>';
     button.onclick = onClick;
     return button;
 }

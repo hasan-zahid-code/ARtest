@@ -25,15 +25,11 @@ export function createViewerPage(onBack) {
     // Loader
     const loader = document.createElement('div');
     loader.id = 'loader';
-
-    const spinner = document.createElement('div');
-    spinner.className = 'spinner';
-
-    const loaderText = document.createElement('p');
-    loaderText.textContent = 'Loading...';
-
-    loader.appendChild(spinner);
-    loader.appendChild(loaderText);
+    loader.innerHTML = `
+        <p class="loader-name"></p>
+        <div class="loader-bar-track"><div class="loader-bar-fill"></div></div>
+        <p class="loader-percent">0%</p>
+    `;
     container.appendChild(loader);
 
     // Model viewer
@@ -42,13 +38,22 @@ export function createViewerPage(onBack) {
     modelViewer.src = '';
     modelViewer.setAttribute('ar', '');
     modelViewer.setAttribute('ar-modes', 'webxr scene-viewer quick-look');
+    modelViewer.setAttribute('ar-scale', 'auto');
+    modelViewer.setAttribute('ar-placement', 'floor');
     modelViewer.setAttribute('environment-image', 'neutral');
-    modelViewer.setAttribute('exposure', '1');
-    modelViewer.setAttribute('tone-mapping', 'neutral');
+    modelViewer.setAttribute('exposure', '1.15');
+    modelViewer.setAttribute('tone-mapping', 'commerce');
+    modelViewer.setAttribute('shadow-intensity', '1.5');
+    modelViewer.setAttribute('shadow-softness', '1');
+    modelViewer.setAttribute('camera-orbit', '0deg 72deg auto');
+    modelViewer.setAttribute('field-of-view', '30deg');
+    modelViewer.setAttribute('min-camera-orbit', 'auto 0deg auto');
+    modelViewer.setAttribute('max-camera-orbit', 'auto 90deg auto');
     modelViewer.setAttribute('camera-controls', '');
-    modelViewer.setAttribute('shadow-intensity', '1');
-    modelViewer.setAttribute('loading', 'eager');
     modelViewer.setAttribute('auto-rotate', '');
+    modelViewer.setAttribute('auto-rotate-delay', '2000');
+    modelViewer.setAttribute('rotation-per-second', '12deg');
+    modelViewer.setAttribute('loading', 'eager');
 
     // AR button inside model-viewer (slotted)
     modelViewer.appendChild(createARButton());
@@ -86,14 +91,6 @@ export function createViewerPage(onBack) {
         <p class="viewer-spice-row"></p>
     `;
     container.appendChild(overlay);
-
-    // Dynamically track overlay height so AR button clears it
-    const ro = new ResizeObserver(entries => {
-        for (const entry of entries) {
-            container.style.setProperty('--overlay-height', `${Math.ceil(entry.target.offsetHeight)}px`);
-        }
-    });
-    ro.observe(overlay);
 
     return container;
 }

@@ -15,6 +15,14 @@ function initializeApp() {
     loader = document.getElementById('loader');
     mv = document.getElementById('main-mv');
 
+    mv.addEventListener('progress', (e) => {
+        const pct = Math.round(e.detail.totalProgress * 100);
+        const fill = loader.querySelector('.loader-bar-fill');
+        const label = loader.querySelector('.loader-percent');
+        if (fill) fill.style.width = `${pct}%`;
+        if (label) label.textContent = `${pct}%`;
+    });
+
     mv.addEventListener('load', () => {
         loader.style.display = 'none';
     });
@@ -25,8 +33,12 @@ function launchAR(item) {
     viewerScreen.style.display = 'block';
     loader.style.display = 'flex';
 
-    const loaderText = loader.querySelector('p');
-    if (loaderText) loaderText.textContent = `Loading ${item.name}…`;
+    const loaderName = loader.querySelector('.loader-name');
+    const loaderFill = loader.querySelector('.loader-bar-fill');
+    const loaderPct = loader.querySelector('.loader-percent');
+    if (loaderName) loaderName.textContent = item.name;
+    if (loaderFill) loaderFill.style.width = '0%';
+    if (loaderPct) loaderPct.textContent = '0%';
 
     if (mv.updateHotspots) mv.updateHotspots(item);
 
