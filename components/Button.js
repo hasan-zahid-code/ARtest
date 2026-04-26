@@ -9,7 +9,7 @@ export function createButton(text, emoji, onClick) {
 export function createBackButton(onClick) {
     const button = document.createElement('button');
     button.className = 'back-btn';
-    button.innerHTML = '&#8592; Menu';
+    button.textContent = '\u2190\u00A0Menu';
     button.onclick = onClick;
     return button;
 }
@@ -18,6 +18,6 @@ export function createARButton() {
     const button = document.createElement('button');
     button.id = 'ar-button';
     button.slot = 'ar-button';
-    button.innerHTML = '&#x1F4F1; Place in Your Room';
+    button.textContent = 'Place in Your Space';
     return button;
 }

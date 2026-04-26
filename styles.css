@@ -1,67 +1,56 @@
 /* ==========================================================================
-   1. CSS Custom Properties (design tokens)
+   1. CSS Custom Properties — Luxury Dark Palette
    ========================================================================== */
 :root {
-    /* Brand — warm terracotta */
-    --color-brand:          #D4531A;
-    --color-brand-light:    #F07040;
-    --color-brand-dark:     #9E3A0E;
-    --color-brand-tint:     rgba(212, 83, 26, 0.10);
+    /* Gold — primary accent */
+    --color-brand:          #C9A96E;
+    --color-brand-light:    #DFC28E;
+    --color-brand-dark:     #A88950;
+    --color-brand-tint:     rgba(201, 169, 110, 0.10);
 
-    /* Surfaces — cream / warm white */
-    --color-bg:             #FDF6EE;
-    --color-surface:        #FFFFFF;
-    --color-surface-raised: #FFF8F2;
-    --color-surface-subtle: #F5EDE2;
-    --color-overlay:        rgba(15, 8, 0, 0.60);
+    /* Surfaces — deep warm black */
+    --color-bg:             #080706;
+    --color-surface:        #100F0D;
+    --color-surface-raised: #161410;
+    --color-surface-subtle: #1C1A17;
+    --color-overlay:        rgba(0, 0, 0, 0.80);
 
     /* Borders */
-    --color-border:         rgba(180, 130, 90, 0.18);
-    --color-border-strong:  rgba(180, 130, 90, 0.35);
+    --color-border:         rgba(201, 169, 110, 0.14);
+    --color-border-strong:  rgba(201, 169, 110, 0.28);
+    --color-rule:           rgba(201, 169, 110, 0.18);
 
     /* Text */
-    --color-text-primary:   #1A1008;
-    --color-text-secondary: #5C4033;
-    --color-text-muted:     #9C7B68;
-    --color-text-inverse:   #FFFFFF;
-
-    /* Nutrition chips */
-    --color-cal:     #D4631A;
-    --color-protein: #3A72C0;
-    --color-carbs:   #B8860B;
-    --color-fat:     #B03A35;
-
-    /* Spice */
-    --color-spice-inactive: rgba(0,0,0,0.15);
-
-    /* Viewer overlay */
-    --color-viewer-bg: rgba(12, 6, 0, 0.75);
+    --color-text-primary:   #EDE8DF;
+    --color-text-secondary: #B5A99A;
+    --color-text-muted:     #6B6055;
+    --color-text-inverse:   #080706;
 
     /* Shadows */
-    --shadow-card:       0 2px 12px rgba(100, 50, 20, 0.08);
-    --shadow-card-hover: 0 8px 28px rgba(100, 50, 20, 0.16);
-    --shadow-btn:        0 4px 14px rgba(212, 83, 26, 0.40);
+    --shadow-card:       0 1px 0 var(--color-border);
+    --shadow-card-hover: 0 0 0 1px rgba(201, 169, 110, 0.30);
+    --shadow-btn:        0 4px 24px rgba(201, 169, 110, 0.24);
 
-    /* Radii */
-    --radius-card: 16px;
-    --radius-chip: 8px;
-    --radius-btn:  50px;
-    --radius-tag:  6px;
+    /* Radii — sharp luxury */
+    --radius-card: 2px;
+    --radius-chip: 2px;
+    --radius-btn:  2px;
+    --radius-tag:  1px;
 
     /* Spacing */
     --space-xs: 4px;
     --space-sm: 8px;
     --space-md: 16px;
     --space-lg: 24px;
-    --space-xl: 40px;
+    --space-xl: 48px;
 
     /* Typography */
-    --font-body:    'Inter', 'Segoe UI', system-ui, sans-serif;
-    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body:    'Jost', 'Segoe UI', system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
 
     /* Transitions */
-    --t-fast: 0.15s ease;
-    --t-med:  0.26s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --t-fast: 0.16s ease;
+    --t-med:  0.36s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 /* ==========================================================================
@@ -81,6 +70,7 @@ body, html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow: hidden;
+    color-scheme: dark;
 }
 
 button {
@@ -98,42 +88,20 @@ button {
     height: 100vh;
     height: 100dvh;
     overflow: hidden;
+    background: var(--color-bg);
 }
 
 /* ==========================================================================
    4. Banner
    ========================================================================== */
 .banner {
-    background: linear-gradient(140deg, #C44A15 0%, #D4531A 45%, #E8763A 80%, #F0A060 100%);
-    padding: 28px 20px 24px;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: 32px 24px 28px;
     text-align: center;
+    flex-shrink: 0;
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
-}
-
-.banner::before {
-    content: '';
-    position: absolute;
-    top: -60px;
-    right: -40px;
-    width: 220px;
-    height: 220px;
-    background: rgba(255, 255, 255, 0.08);
-    border-radius: 50%;
-    pointer-events: none;
-}
-
-.banner::after {
-    content: '';
-    position: absolute;
-    bottom: -40px;
-    left: -20px;
-    width: 140px;
-    height: 140px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    pointer-events: none;
 }
 
 .banner-content {
@@ -141,30 +109,53 @@ button {
     z-index: 1;
 }
 
+.banner-eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.30em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 14px;
+}
+
 .banner-title {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--color-text-inverse);
-    letter-spacing: -0.3px;
+    font-size: 34px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text-primary);
+    letter-spacing: 0.02em;
+    line-height: 1;
+}
+
+.banner-rule {
+    display: block;
+    width: 48px;
+    height: 1px;
+    background: var(--color-brand);
+    opacity: 0.45;
+    margin: 14px auto;
 }
 
 .banner-subtitle {
-    margin: 6px 0 0;
-    font-size: 13px;
-    font-weight: 400;
-    color: rgba(255, 255, 255, 0.88);
-    letter-spacing: 0.1px;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 300;
+    color: var(--color-text-muted);
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
 }
 
 /* ==========================================================================
-   5. Category Slider
+   5. Category Navigation
    ========================================================================== */
 .category-slider {
-    background: var(--color-surface-raised);
+    background: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 2px 8px rgba(100, 50, 20, 0.06);
     overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
@@ -178,42 +169,42 @@ button {
 
 .category-slider-content {
     display: flex;
-    gap: 4px;
-    padding: 10px 12px;
+    gap: 0;
+    padding: 0 16px;
     min-width: min-content;
 }
 
 .category-btn {
     background: transparent;
     border: none;
+    border-bottom: 1.5px solid transparent;
     color: var(--color-text-muted);
-    padding: 8px 16px;
-    border-radius: var(--radius-btn);
-    font-size: 13px;
-    font-weight: 600;
+    padding: 14px 18px;
+    border-radius: 0;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
     white-space: nowrap;
-    transition: all var(--t-fast);
+    transition: color var(--t-fast), border-color var(--t-fast);
+    min-height: 44px;
     display: flex;
     align-items: center;
-    gap: 5px;
-    min-height: 36px;
-    border: 1.5px solid transparent;
+    gap: 6px;
 }
 
 .category-btn:hover {
-    color: var(--color-brand);
-    background: var(--color-brand-tint);
+    color: var(--color-text-secondary);
 }
 
 .category-btn.active {
     color: var(--color-brand);
-    background: var(--color-brand-tint);
-    border-color: rgba(212, 83, 26, 0.30);
+    border-bottom-color: var(--color-brand);
 }
 
 .cat-icon {
-    font-size: 15px;
-    line-height: 1;
+    display: none;
 }
 
 /* ==========================================================================
@@ -225,6 +216,7 @@ button {
     overflow-x: hidden;
     -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
+    background: var(--color-bg);
 }
 
 .menu-section {
@@ -234,17 +226,30 @@ button {
 .menu-section-heading {
     position: sticky;
     top: 0;
-    background: rgba(253, 246, 238, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 10px 20px;
+    background: rgba(8, 7, 6, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 12px 24px;
     margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--color-text-primary);
-    border-bottom: 1px solid var(--color-border);
-    letter-spacing: -0.2px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text-muted);
+    letter-spacing: 0.10em;
     z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+}
+
+.menu-section-heading::before,
+.menu-section-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--color-border);
 }
 
 /* ==========================================================================
@@ -253,45 +258,37 @@ button {
 .menu-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 16px;
+    gap: 1px;
+    padding: 0;
+    background: var(--color-border);
 }
 
 /* ==========================================================================
-   8. Menu Card — Base
+   8. Menu Card
    ========================================================================== */
 .menu-card {
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-card);
+    border: none;
+    border-radius: 0;
     overflow: hidden;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: stretch;
-    box-shadow: var(--shadow-card);
-    transition: box-shadow var(--t-med), border-color var(--t-med), transform var(--t-med);
+    transition: background var(--t-med);
+    padding: 28px 24px 24px;
+    animation: fadeSlideUp 0.40s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 }
 
 .menu-card:hover {
-    box-shadow: var(--shadow-card-hover);
-    border-color: rgba(212, 83, 26, 0.30);
-    transform: translateY(-2px);
+    background: var(--color-surface-raised);
 }
 
 .menu-card-image {
-    background: var(--color-surface-subtle);
-    min-width: 88px;
-    width: 88px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 38px;
-    border-right: 1px solid var(--color-border);
-    flex-shrink: 0;
+    display: none;
 }
 
 .menu-card-body {
-    padding: 14px 14px 12px;
+    padding: 0;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -299,141 +296,104 @@ button {
 }
 
 /* ==========================================================================
-   9. Menu Card — Header (name + price)
+   9. Menu Card — Header
    ========================================================================== */
 .menu-card-header {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
     justify-content: space-between;
-    gap: 8px;
-    margin-bottom: 5px;
+    gap: 16px;
+    margin-bottom: 0;
 }
 
 .menu-card-name {
     margin: 0;
-    font-size: 14px;
-    font-weight: 700;
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 400;
+    font-style: italic;
     color: var(--color-text-primary);
-    line-height: 1.3;
+    line-height: 1.2;
     flex: 1;
     min-width: 0;
+    letter-spacing: 0.01em;
 }
 
 .menu-card-price {
-    font-size: 14px;
-    font-weight: 700;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
     color: var(--color-brand);
     white-space: nowrap;
     flex-shrink: 0;
-}
-
-.menu-card-description {
-    margin: 0 0 10px;
-    font-size: 12px;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
+    letter-spacing: 0.05em;
 }
 
 /* ==========================================================================
-   10. Menu Card — Nutrition Row
+   10. Menu Card — Divider Rule
    ========================================================================== */
-.nutrition-row {
-    display: flex;
-    gap: 5px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
+.menu-card-rule {
+    width: 100%;
+    height: 1px;
+    background: var(--color-rule);
+    margin: 14px 0;
+    border: none;
+    flex-shrink: 0;
 }
 
-.nutrition-chip {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 4px 8px;
-    border-radius: var(--radius-chip);
-    min-width: 46px;
+/* ==========================================================================
+   11. Menu Card — Description
+   ========================================================================== */
+.menu-card-description {
+    margin: 0 0 12px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.72;
+}
+
+/* ==========================================================================
+   12. Menu Card — Nutrition Line
+   ========================================================================== */
+.nutrition-line {
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--color-text-muted);
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
     line-height: 1;
 }
 
-.nutrition-value {
-    font-size: 13px;
-    font-weight: 700;
-    display: block;
-}
-
-.nutrition-label {
-    font-size: 9px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    display: block;
-    margin-top: 2px;
-    opacity: 0.85;
-}
-
-.nutrition-chip.cal {
-    background: rgba(212, 99, 26, 0.10);
-    color: var(--color-cal);
-}
-
-.nutrition-chip.protein {
-    background: rgba(58, 114, 192, 0.10);
-    color: var(--color-protein);
-}
-
-.nutrition-chip.carbs {
-    background: rgba(184, 134, 11, 0.10);
-    color: var(--color-carbs);
-}
-
-.nutrition-chip.fat {
-    background: rgba(176, 58, 53, 0.10);
-    color: var(--color-fat);
-}
-
 /* ==========================================================================
-   11. Menu Card — Spice Indicator
+   13. Menu Card — Meta (Spice + Allergens)
    ========================================================================== */
 .menu-card-meta {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 10px;
+    margin-bottom: 22px;
 }
 
-.spice-indicator {
-    display: flex;
-    align-items: center;
-    gap: 1px;
+.spice-label {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    white-space: nowrap;
 }
 
-.spice-icon {
-    font-size: 12px;
-    line-height: 1;
-    transition: filter var(--t-fast), opacity var(--t-fast);
-}
-
-.spice-icon.active {
-    filter: none;
-    opacity: 1;
-}
-
-.spice-icon.inactive {
-    filter: grayscale(1);
-    opacity: 0.22;
-}
-
-.spice-none {
-    font-size: 11px;
-    font-weight: 600;
-    color: #4A8A4A;
-    background: rgba(74, 138, 74, 0.10);
-    padding: 2px 8px;
-    border-radius: 20px;
-}
+.spice-label[data-level="0"] { color: #5A7A5A; }
+.spice-label[data-level="3"] { color: #9A6840; }
+.spice-label[data-level="4"] { color: #A05830; }
+.spice-label[data-level="5"] { color: #A04028; }
 
 /* ==========================================================================
-   12. Menu Card — Allergen Tags
+   14. Menu Card — Allergen Tags
    ========================================================================== */
 .allergen-tags {
     display: flex;
@@ -442,68 +402,80 @@ button {
 }
 
 .allergen-tag {
-    background: var(--color-surface-subtle);
+    background: transparent;
     color: var(--color-text-muted);
-    border: 1px solid var(--color-border-strong);
+    border: 1px solid rgba(201, 169, 110, 0.12);
     border-radius: var(--radius-tag);
-    font-size: 10px;
-    font-weight: 600;
-    padding: 2px 6px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 3px 6px;
     white-space: nowrap;
 }
 
 /* ==========================================================================
-   13. Menu Card — CTA Buttons
+   15. Menu Card — CTA Buttons
    ========================================================================== */
 .menu-card-footer {
     margin-top: auto;
 }
 
 .view-3d-btn {
-    background: var(--color-brand);
-    color: var(--color-text-inverse);
-    border: none;
-    padding: 9px 16px;
+    background: transparent;
+    color: var(--color-brand);
+    border: 1px solid rgba(201, 169, 110, 0.35);
+    padding: 9px 20px;
     border-radius: var(--radius-btn);
-    font-size: 12px;
-    font-weight: 700;
-    letter-spacing: 0.2px;
-    transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
-    min-height: 36px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background var(--t-fast), border-color var(--t-fast), color var(--t-fast);
+    min-height: 38px;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-    box-shadow: 0 2px 8px rgba(212, 83, 26, 0.25);
+    gap: 8px;
+    box-shadow: none;
 }
 
 .view-3d-btn:hover {
-    background: var(--color-brand-light);
-    box-shadow: var(--shadow-btn);
+    background: var(--color-brand);
+    color: var(--color-text-inverse);
+    border-color: var(--color-brand);
 }
 
 .view-3d-btn:active {
-    transform: scale(0.96);
+    transform: scale(0.98);
     background: var(--color-brand-dark);
+    color: var(--color-text-inverse);
+    border-color: var(--color-brand-dark);
 }
 
 .no-model-btn {
     background: transparent;
     color: var(--color-text-muted);
-    border: 1.5px dashed var(--color-border-strong);
+    border: 1px solid rgba(201, 169, 110, 0.08);
     border-radius: var(--radius-btn);
-    padding: 8px 14px;
-    font-size: 12px;
-    font-weight: 600;
-    min-height: 36px;
+    padding: 9px 20px;
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    min-height: 38px;
     cursor: default;
     pointer-events: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+    opacity: 0.35;
 }
 
 /* ==========================================================================
-   14. Layout — Viewer Screen
+   16. Layout — Viewer Screen
    ========================================================================== */
 #viewer-screen {
     display: none;
@@ -511,7 +483,7 @@ button {
     height: 100dvh;
     position: relative;
     overflow: hidden;
-    background: #0F0A05;
+    background: #000000;
 }
 
 model-viewer {
@@ -521,7 +493,7 @@ model-viewer {
 }
 
 /* ==========================================================================
-   15. Loader
+   17. Loader
    ========================================================================== */
 #loader {
     position: absolute;
@@ -531,24 +503,27 @@ model-viewer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 20px;
     z-index: 20;
 }
 
 .spinner {
-    border: 3px solid var(--color-border);
+    border: 1px solid rgba(201, 169, 110, 0.12);
     border-left-color: var(--color-brand);
     border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    animation: spin 0.9s linear infinite;
+    width: 36px;
+    height: 36px;
+    animation: spin 1.2s linear infinite;
 }
 
 #loader p {
     margin: 0;
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-text-secondary);
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
 }
 
 @keyframes spin {
@@ -556,57 +531,62 @@ model-viewer {
 }
 
 /* ==========================================================================
-   16. Back Button
+   18. Back Button
    ========================================================================== */
 .back-btn {
     position: absolute;
     top: max(20px, env(safe-area-inset-top));
     left: 16px;
     z-index: 30;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.50);
-    color: var(--color-text-primary);
-    padding: 10px 16px;
+    background: rgba(8, 7, 6, 0.72);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(201, 169, 110, 0.20);
+    color: var(--color-text-secondary);
+    padding: 8px 16px;
     border-radius: var(--radius-btn);
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-    transition: background var(--t-fast);
-    min-height: 44px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    box-shadow: none;
+    transition: border-color var(--t-fast), color var(--t-fast);
+    min-height: 36px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .back-btn:hover {
-    background: rgba(255, 255, 255, 0.98);
+    border-color: rgba(201, 169, 110, 0.45);
+    color: var(--color-brand);
 }
 
 /* ==========================================================================
-   17. AR Button
+   19. AR Button
    ========================================================================== */
 #ar-button {
     background: var(--color-brand);
     color: var(--color-text-inverse);
     border: none;
     border-radius: var(--radius-btn);
-    padding: 14px 28px;
+    padding: 14px 32px;
     position: absolute;
-    bottom: calc(var(--overlay-height, 90px) + 16px);
+    bottom: calc(var(--overlay-height, 100px) + 20px);
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-body);
-    font-weight: 700;
-    font-size: 14px;
-    letter-spacing: 0.3px;
+    font-weight: 500;
+    font-size: 10px;
+    letter-spacing: 0.20em;
+    text-transform: uppercase;
     min-width: 200px;
-    max-width: calc(100% - 40px);
+    max-width: calc(100% - 48px);
     white-space: nowrap;
     z-index: 15;
     box-shadow: var(--shadow-btn);
-    transition: background var(--t-fast), box-shadow var(--t-fast), transform var(--t-fast);
+    transition: background var(--t-fast), transform var(--t-fast);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -619,23 +599,28 @@ model-viewer {
 
 #ar-button:active {
     transform: translateX(-50%) scale(0.97);
+    background: var(--color-brand-dark);
 }
 
 /* ==========================================================================
-   18. Viewer Info Overlay
+   20. Viewer Info Overlay
    ========================================================================== */
 .viewer-info-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
-    background: var(--color-viewer-bg);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 80px 28px calc(24px + env(safe-area-inset-bottom));
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.96) 0%,
+        rgba(0, 0, 0, 0.80) 45%,
+        rgba(0, 0, 0, 0.40) 70%,
+        transparent 100%
+    );
+    border-top: none;
     z-index: 12;
-    color: var(--color-text-inverse);
+    color: var(--color-text-primary);
 }
 
 .viewer-item-header {
@@ -649,91 +634,92 @@ model-viewer {
 .viewer-item-name {
     margin: 0;
     font-family: var(--font-display);
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--color-text-inverse);
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text-primary);
     line-height: 1.2;
     flex: 1;
     min-width: 0;
 }
 
 .viewer-item-price {
-    font-size: 18px;
-    font-weight: 700;
-    color: #F0A060;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--color-brand);
     white-space: nowrap;
     flex-shrink: 0;
+    letter-spacing: 0.04em;
+}
+
+.viewer-rule {
+    width: 100%;
+    height: 1px;
+    background: rgba(201, 169, 110, 0.20);
+    margin: 12px 0;
 }
 
 .viewer-nutrition-summary {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
-
-.viewer-nutrition-summary .nutrition-chip {
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.viewer-nutrition-summary .nutrition-chip.cal {
-    background: rgba(212, 99, 26, 0.20);
-}
-
-.viewer-nutrition-summary .nutrition-chip.protein {
-    background: rgba(58, 114, 192, 0.20);
-}
-
-.viewer-nutrition-summary .nutrition-chip.carbs {
-    background: rgba(184, 134, 11, 0.20);
-}
-
-.viewer-nutrition-summary .nutrition-chip.fat {
-    background: rgba(176, 58, 53, 0.20);
+    font-family: var(--font-body);
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(201, 169, 110, 0.55);
+    letter-spacing: 0.05em;
+    margin: 0 0 8px;
 }
 
 .viewer-spice-row {
+    font-family: var(--font-body);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 4px;
 }
 
 /* ==========================================================================
-   19. Hotspot Annotations
+   21. Hotspot Annotations
    ========================================================================== */
 .hotspot {
     background: var(--color-brand);
-    border: 2px solid rgba(255, 255, 255, 0.80);
+    border: 1px solid rgba(201, 169, 110, 0.50);
     border-radius: 50%;
-    width: 22px;
-    height: 22px;
+    width: 16px;
+    height: 16px;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.40);
-    transition: transform var(--t-fast);
+    box-shadow: 0 0 12px rgba(201, 169, 110, 0.50), 0 0 24px rgba(201, 169, 110, 0.20);
+    transition: transform var(--t-fast), box-shadow var(--t-fast);
     position: relative;
 }
 
 .hotspot:hover {
-    transform: scale(1.25);
+    transform: scale(1.35);
+    box-shadow: 0 0 20px rgba(201, 169, 110, 0.80), 0 0 40px rgba(201, 169, 110, 0.30);
 }
 
 .hotspot .annotation {
-    background: rgba(15, 8, 0, 0.92);
-    color: #fff;
-    padding: 10px 14px;
-    border-radius: 10px;
+    background: rgba(8, 7, 6, 0.97);
+    color: var(--color-text-secondary);
+    padding: 12px 16px;
+    border-radius: var(--radius-card);
     position: absolute;
     transform: translate(20px, -50%);
-    width: 160px;
+    width: 172px;
     text-align: left;
+    font-family: var(--font-body);
     font-size: 12px;
+    font-weight: 300;
     line-height: 1.6;
     white-space: normal;
     pointer-events: none;
     z-index: 10;
     display: none;
-    border: 1px solid rgba(255,255,255,0.12);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.40);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.60);
 }
 
 .hotspot:hover .annotation {
@@ -742,89 +728,103 @@ model-viewer {
 
 .hotspot .annotation strong {
     display: block;
-    color: #F0A060;
-    margin-bottom: 4px;
-    font-size: 11px;
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.14em;
+    color: var(--color-brand);
+    margin-bottom: 4px;
 }
 
 /* ==========================================================================
-   20. Animations
+   22. Animations
    ========================================================================== */
 @keyframes fadeSlideUp {
-    from { opacity: 0; transform: translateY(12px); }
+    from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
 }
 
-.menu-card {
-    animation: fadeSlideUp 0.3s ease both;
-}
+.menu-card:nth-child(1) { animation-delay: 0.00s; }
+.menu-card:nth-child(2) { animation-delay: 0.06s; }
+.menu-card:nth-child(3) { animation-delay: 0.12s; }
+.menu-card:nth-child(4) { animation-delay: 0.18s; }
+.menu-card:nth-child(5) { animation-delay: 0.24s; }
+.menu-card:nth-child(n+6) { animation-delay: 0.28s; }
 
 /* ==========================================================================
-   21. Responsive — Tablet (768px+)
+   23. Responsive — Tablet (768px+)
    ========================================================================== */
 @media (min-width: 768px) {
     .banner {
-        padding: 36px 24px 30px;
+        padding: 44px 32px 36px;
     }
 
     .banner-title {
-        font-size: 32px;
-    }
-
-    .banner-subtitle {
-        font-size: 15px;
+        font-size: 44px;
     }
 
     .menu-grid {
         grid-template-columns: repeat(2, 1fr);
-        gap: 16px;
-        padding: 20px;
+        gap: 1px;
+        padding: 0;
     }
 
     .menu-card {
         flex-direction: column;
-        align-items: stretch;
+        padding: 32px 28px 28px;
     }
 
-    .menu-card-image {
-        width: 100%;
-        min-width: unset;
-        height: 130px;
-        border-right: none;
-        border-bottom: 1px solid var(--color-border);
-        font-size: 52px;
+    .menu-card-name {
+        font-size: 22px;
     }
 
     .menu-section-heading {
-        font-size: 20px;
-        padding: 12px 20px;
+        font-size: 14px;
+        padding: 14px 28px;
     }
 }
 
 /* ==========================================================================
-   22. Responsive — Desktop (1024px+)
+   24. Responsive — Desktop (1024px+)
    ========================================================================== */
 @media (min-width: 1024px) {
-    .menu-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        padding: 24px;
+    .banner {
+        padding: 52px 40px 44px;
     }
 
-    .menu-card-image {
-        height: 150px;
-        font-size: 60px;
+    .banner-title {
+        font-size: 52px;
+    }
+
+    .category-slider-content {
+        justify-content: center;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        padding: 0;
+    }
+
+    .menu-card {
+        padding: 36px 32px 32px;
+    }
+
+    .menu-card-name {
+        font-size: 23px;
     }
 
     .menu-section-heading {
-        font-size: 22px;
-        padding: 14px 24px;
+        font-size: 14px;
+        padding: 14px 32px;
+    }
+
+    .viewer-item-name {
+        font-size: 34px;
     }
 
     #ar-button {
-        font-size: 15px;
-        padding: 16px 36px;
+        padding: 16px 40px;
     }
 }

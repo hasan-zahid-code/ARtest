@@ -1,6 +1,3 @@
-/**
- * Banner component
- */
 export function createBanner(restaurantName, tagline) {
     const banner = document.createElement('div');
     banner.className = 'banner';
@@ -8,24 +5,29 @@ export function createBanner(restaurantName, tagline) {
     const content = document.createElement('div');
     content.className = 'banner-content';
 
+    const eyebrow = document.createElement('span');
+    eyebrow.className = 'banner-eyebrow';
+    eyebrow.textContent = 'Fine Dining';
+
     const title = document.createElement('h1');
     title.className = 'banner-title';
     title.textContent = restaurantName;
+
+    const rule = document.createElement('span');
+    rule.className = 'banner-rule';
 
     const subtitle = document.createElement('p');
     subtitle.className = 'banner-subtitle';
     subtitle.textContent = tagline;
 
+    content.appendChild(eyebrow);
     content.appendChild(title);
+    content.appendChild(rule);
     content.appendChild(subtitle);
     banner.appendChild(content);
     return banner;
 }
 
-/**
- * Category slider component
- * @param {Array<{label: string, icon: string}>} categories
- */
 export function createCategorySlider(categories, onCategorySelect) {
     const slider = document.createElement('div');
     slider.className = 'category-slider';
@@ -39,15 +41,9 @@ export function createCategorySlider(categories, onCategorySelect) {
         btn.setAttribute('data-category', cat.label);
         if (index === 0) btn.classList.add('active');
 
-        const iconSpan = document.createElement('span');
-        iconSpan.className = 'cat-icon';
-        iconSpan.textContent = cat.icon;
-
         const labelSpan = document.createElement('span');
         labelSpan.className = 'cat-label';
         labelSpan.textContent = cat.label;
-
-        btn.appendChild(iconSpan);
         btn.appendChild(labelSpan);
 
         btn.onclick = () => {
@@ -65,62 +61,25 @@ export function createCategorySlider(categories, onCategorySelect) {
 
 // --- Internal helpers ---
 
-function createNutritionRow(nutrition) {
-    const row = document.createElement('div');
-    row.className = 'nutrition-row';
-
-    const chips = [
-        { key: 'cal',     label: 'kcal',    value: nutrition.calories },
-        { key: 'protein', label: 'protein',  value: `${nutrition.protein}g` },
-        { key: 'carbs',   label: 'carbs',    value: `${nutrition.carbs}g` },
-        { key: 'fat',     label: 'fat',      value: `${nutrition.fat}g` },
-    ];
-
-    chips.forEach(({ key, label, value }) => {
-        const chip = document.createElement('div');
-        chip.className = `nutrition-chip ${key}`;
-
-        const val = document.createElement('span');
-        val.className = 'nutrition-value';
-        val.textContent = value;
-
-        const lbl = document.createElement('span');
-        lbl.className = 'nutrition-label';
-        lbl.textContent = label;
-
-        chip.appendChild(val);
-        chip.appendChild(lbl);
-        row.appendChild(chip);
-    });
-
-    return row;
+function createNutritionLine(nutrition) {
+    const line = document.createElement('p');
+    line.className = 'nutrition-line';
+    line.textContent = `${nutrition.calories} kcal  ·  ${nutrition.protein}g protein  ·  ${nutrition.carbs}g carbs  ·  ${nutrition.fat}g fat`;
+    return line;
 }
 
-function createSpiceIndicator(level) {
-    const wrapper = document.createElement('div');
-    wrapper.className = 'spice-indicator';
+const SPICE_WORDS = ['Not Spicy', 'Mild', 'Medium', 'Hot', 'Very Hot', 'Intense'];
 
+function createSpiceLabel(level) {
+    const label = document.createElement('span');
+    label.className = 'spice-label';
+    label.setAttribute('data-level', level);
     if (level === 0) {
-        const label = document.createElement('span');
-        label.className = 'spice-none';
-        label.textContent = '✓ Not Spicy';
-        wrapper.appendChild(label);
-        return wrapper;
+        label.textContent = 'No Heat';
+    } else {
+        label.textContent = `${SPICE_WORDS[level] || 'Hot'} Heat`;
     }
-
-    const spiceLabels = ['', 'Mild', 'Medium', 'Hot', 'Very Hot', 'Extreme'];
-    wrapper.setAttribute('title', `Spice Level: ${spiceLabels[level] || ''}`);
-    wrapper.setAttribute('aria-label', `Spice level: ${spiceLabels[level] || level} out of 5`);
-
-    for (let i = 1; i <= 5; i++) {
-        const icon = document.createElement('span');
-        icon.className = `spice-icon ${i <= level ? 'active' : 'inactive'}`;
-        icon.textContent = '🌶️';
-        icon.setAttribute('aria-hidden', 'true');
-        wrapper.appendChild(icon);
-    }
-
-    return wrapper;
+    return label;
 }
 
 function createAllergenTags(allergens) {
@@ -137,20 +96,10 @@ function createAllergenTags(allergens) {
     return wrapper;
 }
 
-/**
- * Menu item card component
- */
 export function createMenuCard(item, onClick) {
     const card = document.createElement('div');
     card.className = 'menu-card';
 
-    // Image column
-    const imageCol = document.createElement('div');
-    imageCol.className = 'menu-card-image';
-    imageCol.setAttribute('aria-hidden', 'true');
-    imageCol.textContent = item.emoji;
-
-    // Body
     const body = document.createElement('div');
     body.className = 'menu-card-body';
 
@@ -169,18 +118,22 @@ export function createMenuCard(item, onClick) {
     header.appendChild(name);
     header.appendChild(price);
 
+    // Thin gold rule
+    const rule = document.createElement('hr');
+    rule.className = 'menu-card-rule';
+
     // Description
     const desc = document.createElement('p');
     desc.className = 'menu-card-description';
     desc.textContent = item.description;
 
-    // Nutrition row
-    const nutritionRow = createNutritionRow(item.nutrition);
+    // Nutrition single line
+    const nutritionLine = createNutritionLine(item.nutrition);
 
     // Meta: spice + allergens
     const meta = document.createElement('div');
     meta.className = 'menu-card-meta';
-    meta.appendChild(createSpiceIndicator(item.spice));
+    meta.appendChild(createSpiceLabel(item.spice));
     if (item.allergens && item.allergens.length > 0) {
         meta.appendChild(createAllergenTags(item.allergens));
     }
@@ -192,7 +145,7 @@ export function createMenuCard(item, onClick) {
     if (item.hasModel) {
         const btn = document.createElement('button');
         btn.className = 'view-3d-btn';
-        btn.innerHTML = '&#x1F441;&#xFE0F; View in 3D';
+        btn.textContent = 'Explore in 3D';
         btn.setAttribute('aria-label', `View ${item.name} in 3D`);
         btn.onclick = (e) => {
             e.stopPropagation();
@@ -202,25 +155,25 @@ export function createMenuCard(item, onClick) {
     } else {
         const btn = document.createElement('button');
         btn.className = 'no-model-btn';
-        btn.textContent = '⏳ 3D Coming Soon';
+        btn.textContent = 'Preview Unavailable';
         btn.setAttribute('aria-label', '3D model not yet available');
         btn.setAttribute('aria-disabled', 'true');
         footer.appendChild(btn);
     }
 
     body.appendChild(header);
+    body.appendChild(rule);
     body.appendChild(desc);
-    body.appendChild(nutritionRow);
+    body.appendChild(nutritionLine);
     body.appendChild(meta);
     body.appendChild(footer);
 
-    card.appendChild(imageCol);
     card.appendChild(body);
 
     return card;
 }
 
-// Legacy exports kept for backwards compatibility
+// Legacy exports
 export function createMenuGrid(items, onItemSelect) {
     const grid = document.createElement('div');
     grid.className = 'menu-grid';

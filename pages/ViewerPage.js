@@ -81,8 +81,9 @@ export function createViewerPage(onBack) {
             <h2 class="viewer-item-name"></h2>
             <span class="viewer-item-price"></span>
         </div>
-        <div class="viewer-nutrition-summary"></div>
-        <div class="viewer-spice-row"></div>
+        <div class="viewer-rule"></div>
+        <p class="viewer-nutrition-summary"></p>
+        <p class="viewer-spice-row"></p>
     `;
     container.appendChild(overlay);
 

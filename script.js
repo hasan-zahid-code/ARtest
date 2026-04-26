@@ -35,6 +35,8 @@ function launchAR(item) {
     updateViewerOverlay(item);
 }
 
+const VIEWER_SPICE_WORDS = ['Not Spicy', 'Mild', 'Medium', 'Hot', 'Very Hot', 'Intense'];
+
 function updateViewerOverlay(item) {
     const overlay = viewerScreen.querySelector('.viewer-info-overlay');
     if (!overlay) return;
@@ -42,43 +44,15 @@ function updateViewerOverlay(item) {
     overlay.querySelector('.viewer-item-name').textContent = item.name;
     overlay.querySelector('.viewer-item-price').textContent = `$${item.price.toFixed(2)}`;
 
-    // Nutrition chips
-    const nutritionEl = overlay.querySelector('.viewer-nutrition-summary');
-    nutritionEl.innerHTML = '';
+    const n = item.nutrition;
+    overlay.querySelector('.viewer-nutrition-summary').textContent =
+        `${n.calories} kcal  ·  ${n.protein}g protein  ·  ${n.carbs}g carbs  ·  ${n.fat}g fat`;
 
-    const chips = [
-        { key: 'cal',     label: 'kcal',   value: item.nutrition.calories },
-        { key: 'protein', label: 'protein', value: `${item.nutrition.protein}g` },
-        { key: 'carbs',   label: 'carbs',   value: `${item.nutrition.carbs}g` },
-        { key: 'fat',     label: 'fat',     value: `${item.nutrition.fat}g` },
-    ];
-
-    chips.forEach(({ key, label, value }) => {
-        const chip = document.createElement('div');
-        chip.className = `nutrition-chip ${key}`;
-        chip.innerHTML = `<span class="nutrition-value">${value}</span><span class="nutrition-label">${label}</span>`;
-        nutritionEl.appendChild(chip);
-    });
-
-    // Spice row
     const spiceEl = overlay.querySelector('.viewer-spice-row');
-    spiceEl.innerHTML = '';
-
-    if (item.spice === 0) {
-        const label = document.createElement('span');
-        label.className = 'spice-none';
-        label.style.color = 'rgba(255,255,255,0.70)';
-        label.style.background = 'rgba(255,255,255,0.10)';
-        label.textContent = '✓ Not Spicy';
-        spiceEl.appendChild(label);
-    } else {
-        for (let i = 1; i <= 5; i++) {
-            const icon = document.createElement('span');
-            icon.className = `spice-icon ${i <= item.spice ? 'active' : 'inactive'}`;
-            icon.textContent = '🌶️';
-            spiceEl.appendChild(icon);
-        }
-    }
+    spiceEl.textContent = item.spice === 0
+        ? 'No Heat'
+        : `${VIEWER_SPICE_WORDS[item.spice] || 'Hot'} Heat`;
+    spiceEl.setAttribute('data-level', item.spice);
 }
 
 function goBack() {
